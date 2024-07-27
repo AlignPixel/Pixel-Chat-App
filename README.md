@@ -37,8 +37,8 @@
 
 | AVATAR                                                       | NAME                                                    | WORK            |
 | ------------------------------------------------------------ | ------------------------------------------------------- | --------------- |
-| <img src="https://avatars.githubusercontent.com/u/120368045?s=400&u=ac60326a41a0d41faaf82ad25bcd143d85224791&v=4" alt="BunDragon's Github AVATAR" width="50px" /> | [磅豆龙(FrederickBun)](https://github.com/FrederickBun) | AUTHOR(Creator) |
-| <img src="https://avatars.githubusercontent.com/u/98998872" alt="Rayminn's Github AVATAR" width="50px"/> | [Yiming Lei(Rayminn)](https://github.com/Rayminn)       | AUTHOR(Editor)  |
+| <img src="https://avatars.githubusercontent.com/u/120368045?s=400&u=ac60326a41a0d41faaf82ad25bcd143d85224791&v=4" alt="BunDragon's Github AVATAR" width="50px" /> | [磅豆龙(FrederickBun)](https://github.com/FrederickBun) | Author(Creator) |
+| <img src="https://avatars.githubusercontent.com/u/98998872" alt="Rayminn's Github AVATAR" width="50px"/> | [Yiming Lei(Rayminn)](https://github.com/Rayminn)       | Author(Editor)  |
 
 ### 📦特供版本与特殊版本使用者
 

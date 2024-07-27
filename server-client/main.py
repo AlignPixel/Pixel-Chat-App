@@ -1,7 +1,7 @@
 import json
 import threading
 from socket import *
-from time import ctime
+from time import ctime, time
 
 class PyChattingServer:
     __socket = socket(AF_INET, SOCK_STREAM, 0)
@@ -14,7 +14,10 @@ class PyChattingServer:
         self.__msg_handler = ChattingHandler()
 
     def start_session(self):
-        print('即时聊天系统部署完成，用户可通过客户端并输入本机IP访问！\r\n')
+        print('已经上线，用户可通过IP进入\r\n')
+        input_thread_handler = threading.Thread(target=self.input_thread)
+        input_thread_handler.daemon = True
+        input_thread_handler.start()
         try:
             while True:
                 cs, caddr = self.__socket.accept()
@@ -23,36 +26,69 @@ class PyChattingServer:
         except socket.error:
             pass
 
+    def input_thread(self):
+        while True:
+            command = input("")
+            self.__msg_handler.add_to_blacklist_manual(command.strip())
+
 class ChattingThread(threading.Thread):
-    __buf = 1024
+    __buf = 32767
 
     def __init__(self, cs, caddr, msg_handler):
         super(ChattingThread, self).__init__()
         self.__cs = cs
         self.__caddr = caddr
         self.__msg_handler = msg_handler
+        self.__last_msg_time = time()
+        self.__msg_count = 0
 
     def run(self):
         try:
-            print('> 连接来自于:', self.__caddr)
-            data = "欢迎你到来由Pixel Chat驱动的聊天室，开始聊天前请你阅读以下须知\r\n"\
-                   "1. 请勿发表辱骂他人的言论\r\n"\
-                   "2. 请勿发表违反国家法律的言论\r\n"\
-                   "3. 请勿刷屏\r\n"\
-                   "4. 本聊天工具没有换行，一行写完回车即发送\r\n"\
-                   "如果您同意以上协议，请输入你的的昵称（不能带空格）并开始聊天："
+            print('连接来自于:', self.__caddr)
+            if self.__msg_handler.is_blacklisted(self.__caddr[0]):
+                self.__handle_blacklisted()
+                return
+            data = "欢迎你来到由PixelChat驱动的聊天室！请遵守以下规则：\r\n"\
+                       "1. 不要刷屏，否则将会被踢出\r\n"\
+                       "2. 不要骂人，可以吐槽，但要适度\r\n"\
+                       "3. 如有问题请联系服务器管理员\r\n"\
+                       "4. 不要发布违反国家法律的信息\r\n"\
+                       "如果你同意以上内容，请输入昵称加入服务器~"
             self.__cs.sendall(bytes(data, 'utf-8'))
             while True:
+                if self.__msg_handler.is_blacklisted(self.__caddr[0]):
+                    self.__handle_blacklisted()
+                    return
                 data = self.__cs.recv(self.__buf).decode('utf-8')
                 if not data:
                     break
+                if len(data) > 15000:
+                    self.__msg_handler.add_to_blacklist(self.__caddr[0])
+                    self.__handle_blacklisted()
+                    return
+                current_time = time()
+                if current_time - self.__last_msg_time < 12:  # 12秒内发送多条消息
+                    self.__msg_count += 1
+                    if self.__msg_count > 12:
+                        self.__msg_handler.add_to_blacklist(self.__caddr[0])
+                        self.__handle_blacklisted()
+                        return
+                else:
+                    self.__msg_count = 0
+                self.__last_msg_time = current_time
                 self.__msg_handler.handle_msg(data, self.__cs)
                 print(data)
-        except:
-            pass
+        except Exception as e:
+            print(f"Error in thread: {e}")
         finally:
             self.__msg_handler.close_conn(self.__cs)
             self.__cs.close()
+
+    def __handle_blacklisted(self):
+        print('...黑塔安全拦截的用户：', self.__caddr)
+        data = '拒绝访问！请联系管理员处理'
+        self.__cs.sendall(bytes(data, 'utf-8'))
+        self.__cs.close()
 
 class ChattingHandler:
     __help_str = "[ 系统消息 ]\r\n" \
@@ -64,11 +100,12 @@ class ChattingHandler:
                  "再次输入/i,即可取消屏蔽\r\n" \
                  "所有首字符为/的信息都不会发送出去"
 
-    __buf = 1024
+    __buf = 32767
     __socket_list = []
     __user_name_to_socket = {}
     __socket_to_user_name = {}
     __user_name_to_broadcast_state = {}
+    __blacklist = set()
 
     def start_thread(self, cs, caddr):
         self.__socket_list.append(cs)
@@ -87,7 +124,7 @@ class ChattingHandler:
             self.__socket_to_user_name.pop(cs)
             self.__user_name_to_broadcast_state.pop(nickname)
         nickname += " "
-        self.broadcast_system_msg(nickname + "离开了本聊天室，他的用户名 " + nickname + "现在开放注册")
+        self.broadcast_系统消息_msg(nickname + "离开了本聊天室")
 
     def handle_msg(self, msg, cs):
         js = json.loads(msg)
@@ -97,7 +134,7 @@ class ChattingHandler:
                     self.send_to(json.dumps({
                         'type': 'login',
                         'success': False,
-                        'msg': '账号禁止包含空格！'
+                        'msg': '账号不能够带有空格'
                     }), cs)
                 else:
                     self.__user_name_to_socket[js['msg']] = cs
@@ -108,12 +145,12 @@ class ChattingHandler:
                         'success': True,
                         'msg': '昵称建立成功,输入/checkol可查看所有在线的人,输入/help可以查看帮助(所有首字符为/的消息都不会发送)'
                     }), cs)
-                    self.broadcast_system_msg(js['msg'] + "加入了聊天")
+                    self.broadcast_系统消息_msg(js['msg'] + "加入了聊天")
             else:
                 self.send_to(json.dumps({
                     'type': 'login',
                     'success': False,
-                    'msg': '账号已存在，请换一个重试'
+                    'msg': '账号已存在'
                 }), cs)
         elif js['type'] == "broadcast":
             if self.__user_name_to_broadcast_state[self.__socket_to_user_name[cs]]:
@@ -121,7 +158,7 @@ class ChattingHandler:
             else:
                 self.send_to(json.dumps({
                     'type': 'broadcast',
-                    'msg': '屏蔽模式下无法发送群聊信息，输入/i可取消屏蔽'
+                    'msg': '屏蔽模式下无法发送群聊信息，输入/i解除屏蔽'
                 }), cs)
         elif js['type'] == "ls":
             self.send_to(json.dumps({
@@ -143,20 +180,13 @@ class ChattingHandler:
     def exchange_ignore_state(self, cs):
         if cs in self.__socket_to_user_name:
             state = self.__user_name_to_broadcast_state[self.__socket_to_user_name[cs]]
-            if state:
-                state = False
-            else:
-                state = True
-            self.__user_name_to_broadcast_state.pop(self.__socket_to_user_name[cs])
+            state = not state
             self.__user_name_to_broadcast_state[self.__socket_to_user_name[cs]] = state
-            if self.__user_name_to_broadcast_state[self.__socket_to_user_name[cs]]:
-                msg = "通常模式"
-            else:
-                msg = "屏蔽模式"
+            msg = "通常模式" if state else "屏蔽模式"
             self.send_to(json.dumps({
                 'type': 'ignore',
                 'success': True,
-                'msg': '[%s]\r\n[ 系统消息 ] : %s\r\n' % (ctime(), "模式切换成功,现在是" + msg)
+                'msg': '[ %s ]\r\n[ 系统消息 ] : %s\r\n' % (ctime(), "模式切换成功,现在是" + msg)
             }), cs)
         else:
             self.send_to({
@@ -167,7 +197,7 @@ class ChattingHandler:
 
     def single_chatting(self, cs, nickname, msg):
         if nickname in self.__user_name_to_socket:
-            msg = '[%s]\r\n[ %s 发送给 %s ] : %s\r\n' % (
+            msg = '[ %s ]\r\n[ %s 发送给 %s ] : %s\r\n' % (
                 ctime(), self.__socket_to_user_name[cs], nickname, msg)
             self.send_to_list(json.dumps({
                 'type': 'single',
@@ -185,9 +215,9 @@ class ChattingHandler:
             self.send_to(msg, cs[i])
 
     def get_all_login_user_info(self):
-        login_list = "[ 系统消息 ] 当前在线 : "
+        login_list = "[ 系统消息 ] 在线用户 : "
         for key in self.__socket_to_user_name:
-            login_list += self.__socket_to_user_name[key] + ","
+            login_list += self.__socket_to_user_name[key] + " | "
         return login_list
 
     def send_to(self, msg, cs):
@@ -195,10 +225,10 @@ class ChattingHandler:
             self.__socket_list.append(cs)
         cs.sendall(bytes(msg, 'utf-8'))
 
-    def broadcast_system_msg(self, msg):
-        data = '[%s]\r\n[ 系统消息 ] : %s' % (ctime(), msg)
+    def broadcast_系统消息_msg(self, msg):
+        data = '[ %s ]\r\n[ 系统消息 ] : %s' % (ctime(), msg)
         js = json.dumps({
-            'type': 'system_msg',
+            'type': '系统消息_msg',
             'msg': data
         })
         for i in range(len(self.__socket_list)):
@@ -206,7 +236,7 @@ class ChattingHandler:
                 self.__socket_list[i].sendall(bytes(js, 'utf-8'))
 
     def broadcast(self, msg, cs):
-        data = '[%s]\r\n[%s] : %s\r\n' % (ctime(), self.__socket_to_user_name[cs], msg)
+        data = '[ %s ]\r\n[%s] : %s\r\n' % (ctime(), self.__socket_to_user_name[cs], msg)
         js = json.dumps({
             'type': 'broadcast',
             'msg': data
@@ -216,10 +246,41 @@ class ChattingHandler:
                     and self.__user_name_to_broadcast_state[self.__socket_to_user_name[self.__socket_list[i]]]:
                 self.__socket_list[i].sendall(bytes(js, 'utf-8'))
 
+    def is_blacklisted(self, ip):
+        return ip in self.__blacklist
+
+    def add_to_blacklist(self, ip):
+        self.__blacklist.add(ip)
+
+    def add_to_blacklist_manual(self, ip):
+        if ip == '.ban':
+            ip = input("请输入需要封禁的ip地址：")
+            if not self.is_blacklisted(ip):
+                self.__blacklist.add(ip)
+                print(f"IP {ip} 已被手动加入黑名单")
+            else:
+                print(f"IP {ip} 已经在黑名单中")
+        elif ip == '.unban':
+            ip = input("请输入需要解除封禁的ip地址：")
+            if not self.is_blacklisted(ip):
+                print(f"IP {ip} 未在黑名单中")
+            else:
+                self.__blacklist.remove(ip)
+                print(f"IP {ip} 已经被手动移除")
+        elif ip == '.banlist':
+            print(self.__blacklist)
+        elif ip == '.help':
+            print("BAN: 封禁某个IP\r\n"\
+                  "UNBAN: 解除封禁某个IP\r\n"\
+                  "BANLIST: 查看封禁IP列表\r\n"\
+                  "HELP: 查看操作帮助")
+        else:
+            print("不存在的命令！")
+
 
 def main():
     server = PyChattingServer()
     server.start_session()
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     main()

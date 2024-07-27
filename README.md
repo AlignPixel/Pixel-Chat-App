@@ -37,8 +37,8 @@
 
 | AVATAR                                                       | NAME                                                    | WORK            |
 | ------------------------------------------------------------ | ------------------------------------------------------- | --------------- |
-| ![BunDragon's Github AVATAR](https://avatars.githubusercontent.com/u/120368045?s=400&u=ac60326a41a0d41faaf82ad25bcd143d85224791&v=4) | [磅豆龙(FrederickBun)](https://github.com/FrederickBun) | AUTHOR(Creator) |
-| ![Rayminn's Github AVATAR](Fhttps:/avatars.githubusercontent.com/u/98998872%3Cbr/) | [Yiming Lei(Rayminn)](https://github.com/Rayminn)       | AUTHOR(Editor)  |
+| <img src="https://avatars.githubusercontent.com/u/120368045?s=400&u=ac60326a41a0d41faaf82ad25bcd143d85224791&v=4" alt="BunDragon's Github AVATAR" width="50px" /> | [磅豆龙(FrederickBun)](https://github.com/FrederickBun) | AUTHOR(Creator) |
+| <img src="https://avatars.githubusercontent.com/u/98998872" alt="Rayminn's Github AVATAR" width="50px"/> | [Yiming Lei(Rayminn)](https://github.com/Rayminn)       | AUTHOR(Editor)  |
 
 ### 📦特供版本与特殊版本使用者
 
@@ -49,3 +49,10 @@
 | 西南大学附中信息学竞赛生 | 本程序最初设计目的是为了此需求，后来开源，诞生了此项目。本文本中提到的 `Pixel-Chat Client` 就是最初由同学们编写的初代客户端，而 `Pixel-Chat Desktop` 是由[AlignPixel](https://github.com/AlignPixel)所改进的开源版本 | 用于刷题目时共享思路，一位同学运行服务端，全班同学可以使用 |
 
 ### 🖼️屏幕截图
+
+![总体截图](https://cdn.jsdelivr.net/gh/FrederickBun/upyun-rhimgcdn@img/upload/202407271438190.png)
+
+![客户端](https://cdn.jsdelivr.net/gh/FrederickBun/upyun-rhimgcdn@img/upload/202407271438066.png)
+
+![服务端](https://cdn.jsdelivr.net/gh/FrederickBun/upyun-rhimgcdn@img/upload/202407271438163.png)
+

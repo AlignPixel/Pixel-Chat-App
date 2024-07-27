@@ -16,12 +16,12 @@
 ###### 在服务器上运行服务端
 
 1. 在用作服务端的服务器或计算机上安装[Python环境](https://python.org)
-2. 在Release页面下载 `Pixel-Chat Server`，下载完成后运行
+2. 在[Release](https://github.com/AlignPixel/Pixel-Chat-App/releases)页面下载 `Pixel-Chat Server`，下载完成后运行
 3. VOILA! 现在邀请你的用户通过 `Pixel-Chat Client` 或 `Pixel-Chat Desktop` 访问服务器/计算机IP地址即可聊天
 
 ###### 访问您喜欢的聊天服务器
 
-1. 在Release页面下载 `Pixel-Chat-Desktop`，下载完成后运行
+1. 在[Release](https://github.com/AlignPixel/Pixel-Chat-App/releases)页面下载 `Pixel-Chat-Desktop`，下载完成后运行
 2. 输入您喜欢的聊天服务器IP
 3. VOILA! 现在是聊天时间
 

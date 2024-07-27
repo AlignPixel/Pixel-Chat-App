@@ -274,6 +274,22 @@ class ChattingHandler:
                   "UNBAN: 解除封禁某个IP\r\n"\
                   "BANLIST: 查看封禁IP列表\r\n"\
                   "HELP: 查看操作帮助")
+        elif ip == '.an':
+            user = input("请输入要发布的内容：")
+            self.broadcast_system_msg(user)
+        elif ip == '.online':
+            login_list = "[ 输出 ] 在线用户 : "
+            for key in self.__socket_to_user_name:
+                login_list += self.__socket_to_user_name[key] + ' | '
+            print(login_list)
+        elif ip == '.help':
+            print("BAN: 封禁某个IP\r\n"\
+                  "UNBAN: 解除封禁某个IP\r\n"\
+                  "BANLIST: 查看封禁IP列表\r\n"\
+                  "KICK: 踢出某个用户\r\n"\
+                  "AN: 以系统身份发布消息\r\n"\
+                  "ONELINE: 查看在线用户\r\n"\
+                  "HELP: 查看操作帮助")
         else:
             print("不存在的命令！")
 

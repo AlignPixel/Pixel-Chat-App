@@ -44,11 +44,11 @@ class ChattingThread(threading.Thread):
 
     def run(self):
         try:
-            print('-> 连接来自于:', self.__caddr)
+            print('连接来自于:', self.__caddr)
             if self.__msg_handler.is_blacklisted(self.__caddr[0]):
                 self.__handle_blacklisted()
                 return
-            data = "欢迎你到来暑期聊天室！请遵守以下规则：\r\n"\
+            data = "欢迎你来到由PixelChat驱动的聊天室！请遵守以下规则：\r\n"\
                        "1. 不要刷屏，否则将会被踢出\r\n"\
                        "2. 不要骂人，可以吐槽，但要适度\r\n"\
                        "3. 如有问题请联系服务器管理员\r\n"\
@@ -86,7 +86,7 @@ class ChattingThread(threading.Thread):
 
     def __handle_blacklisted(self):
         print('...黑塔安全拦截的用户：', self.__caddr)
-        data = '拒绝访问！请联系seventeen@ohdragonboi.cn'
+        data = '拒绝访问！请联系管理员处理'
         self.__cs.sendall(bytes(data, 'utf-8'))
         self.__cs.close()
 

@@ -1,6 +1,6 @@
 ![Pixel-Chat-App](https://repository-images.githubusercontent.com/832191338/b1042f2c-3c1a-4756-b061-732923b776cd)
 
-# 💬Pixel-Chat App
+# 💬 Pixel-Chat App
 
 一个简单、快速、开源的Python即时聊天系统，涵盖了多种聊天操作需求
 
@@ -9,7 +9,7 @@
 ![GitHub Discussions](https://img.shields.io/github/discussions/AlignPixel/Pixel-Chat-App?style=for-the-badge&logo=github)
 ![Static Badge](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge&logo=Python&logoColor=white)
 
-### 🤩功能亮点
+### 🤩 功能亮点
 
 - 开箱即用，无需部署
 - 可将任意计算机、服务器上用作服务端使用，仅需一个 `Pixel Chat Desktop` 输入IP地址即可访问所有使用 `Pixel-Chat Server` 的聊天服务器
@@ -18,7 +18,7 @@
 - 简单方便的服务端命令，只需一个服务端即可掌控整个聊天服务器
 - 无需手动重置，因为不使用缓存，所以关闭重新打开自动清除数据
 
-### ℹ️使用方法
+### ℹ️ 使用方法
 
 ###### 在服务器上运行服务端
 
@@ -36,7 +36,7 @@
 
 请邮件联系[seventeen@ohdragonboi.cn](mailto:seventeen@ohdragonboi.cn)探讨您需要的内容，也许会需要您支付额外费用🤔
 
-### 🎈贡献者列表
+### 🎈 贡献者列表
 
 欢迎为本项目贡献一份你的力量，请参考Wiki中《贡献手册》章节为本项目提交PR或Issues
 
@@ -55,7 +55,7 @@
 | ------------------------ | ------------------------------------------------------------ | ---------------------------------------------------------- |
 | 西南大学附中信息学竞赛生 | 本程序最初设计目的是为了此需求，后来开源，诞生了此项目。本文本中提到的 `Pixel-Chat Client` 就是最初由同学们编写的初代客户端，而 `Pixel-Chat Desktop` 是由[AlignPixel](https://github.com/AlignPixel)所改进的开源版本 | 用于刷题目时共享思路，一位同学运行服务端，全班同学可以使用 |
 
-### 🖼️屏幕截图
+### 🖼️ 屏幕截图
 
 ![总体截图](https://cdn.jsdelivr.net/gh/FrederickBun/upyun-rhimgcdn@img/upload/202407271438190.png)
 

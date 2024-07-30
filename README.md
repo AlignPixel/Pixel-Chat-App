@@ -2,6 +2,11 @@
 
 一个简单、快速、开源的Python即时聊天系统，涵盖了多种聊天操作需求
 
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/AlignPixel/Pixel-Chat-App/total?style=for-the-badge&logo=github)
+![GitHub License](https://img.shields.io/github/license/AlignPixel/Pixel-Chat-App?style=for-the-badge)
+![GitHub Discussions](https://img.shields.io/github/discussions/AlignPixel/Pixel-Chat-App?style=for-the-badge&logo=github)
+![Static Badge](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge&logo=Python&logoColor=white)
+
 ### 🤩功能亮点
 
 - 开箱即用，无需部署

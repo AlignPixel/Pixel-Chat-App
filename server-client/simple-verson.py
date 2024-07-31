@@ -14,7 +14,7 @@ class PyChattingServer:
         self.__msg_handler = ChattingHandler()
 
     def start_session(self):
-        print('已经上线，用户可通过IP进入\r\n')
+        print('已经上线，用户可通过客户端输入IP进入\r\n')
         input_thread_handler = threading.Thread(target=self.input_thread)
         input_thread_handler.daemon = True
         input_thread_handler.start()
@@ -123,8 +123,9 @@ class ChattingHandler:
             self.__user_name_to_socket.pop(self.__socket_to_user_name[cs])
             self.__socket_to_user_name.pop(cs)
             self.__user_name_to_broadcast_state.pop(nickname)
-        nickname += " "
-        self.broadcast_系统消息_msg(nickname + "离开了本聊天室")
+            nickname += " 离开了本聊天室"
+        if nickname != "SOMEONE":  # 说明是正常退出，一个防输出卡死机制，来自 boom hack 0x3299f
+            self.broadcast_system_msg(nickname)
 
     def handle_msg(self, msg, cs):
         js = json.loads(msg)
@@ -237,6 +238,8 @@ class ChattingHandler:
 
     def broadcast(self, msg, cs):
         data = '[ %s ]\r\n[%s] : %s\r\n' % (ctime(), self.__socket_to_user_name[cs], msg)
+        if '' in data: # 屏蔽卡死服务器的字符，所有 Contributors 请不要更改这条判断，否则 PR 将直接拒绝合并，本安全措施来自 来自 boom hack 0x3657f
+            data = '[ %s ]\r\n[ 系统警告 - %s ] : %s\r\n' % (ctime(), self.__socket_to_user_name[cs], '{用户发送的内容可能包含卡死服务器的内容，已经被屏蔽显示}')
         js = json.dumps({
             'type': 'broadcast',
             'msg': data
@@ -277,11 +280,20 @@ class ChattingHandler:
         elif ip == '.an':
             user = input("请输入要发布的内容：")
             self.broadcast_system_msg(user)
+            print("发布成功")
         elif ip == '.online':
             login_list = "[ 输出 ] 在线用户 : "
             for key in self.__socket_to_user_name:
                 login_list += self.__socket_to_user_name[key] + ' | '
             print(login_list)
+        elif ip == '.setvisit':  # 一个防输出卡死的屏蔽功能，目前仅支持手动添加，来自 boom hack 0x3299f
+            ip = input("请输入限制访问信息的ip地址：")
+            if not self.is_alisted(ip):
+                self.__alist.add(ip)
+                print(f"IP {ip} 已经被手动更改访问")
+            else:
+                self.__alist.remove(ip)
+                print(f"IP {ip} 已经被手动更改访问")
         elif ip == '.help':
             print("BAN: 封禁某个IP\r\n"\
                   "UNBAN: 解除封禁某个IP\r\n"\
@@ -289,6 +301,7 @@ class ChattingHandler:
                   "KICK: 踢出某个用户\r\n"\
                   "AN: 以系统身份发布消息\r\n"\
                   "ONELINE: 查看在线用户\r\n"\
+                  "SETVISIT: 对用户访问进行操作\r\n"\
                   "HELP: 查看操作帮助")
         else:
             print("不存在的命令！")

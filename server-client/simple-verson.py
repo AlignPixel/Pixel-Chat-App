@@ -238,7 +238,7 @@ class ChattingHandler:
 
     def broadcast(self, msg, cs):
         data = '[ %s ]\r\n[%s] : %s\r\n' % (ctime(), self.__socket_to_user_name[cs], msg)
-        if '' in data: # 屏蔽卡死服务器的字符，所有 Contributors 请不要更改这条判断，否则 PR 将直接拒绝合并，本安全措施来自 来自 boom hack 0x3657f
+        if '' in data: # 屏蔽卡死服务器的字符，所有 Contributors 请不要更改这条判断，否则 PR 将直接拒绝合并，本安全措施来自 boom hack 0x3657f
             data = '[ %s ]\r\n[ 系统警告 - %s ] : %s\r\n' % (ctime(), self.__socket_to_user_name[cs], '{用户发送的内容可能包含卡死服务器的内容，已经被屏蔽显示}')
         js = json.dumps({
             'type': 'broadcast',

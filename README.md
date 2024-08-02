@@ -1,5 +1,7 @@
 ![Pixel-Chat-App](https://repository-images.githubusercontent.com/832191338/b1042f2c-3c1a-4756-b061-732923b776cd)
 
+<img src="/assets/logo-final-@1x.png" align="right" width="50px" />
+
 # 💬 Pixel-Chat App
 
 一个简单、快速、开源的Python即时聊天系统，涵盖了多种聊天操作需求

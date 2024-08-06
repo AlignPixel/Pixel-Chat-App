@@ -14,7 +14,7 @@ class PyChattingServer:
         self.__msg_handler = ChattingHandler()
 
     def start_session(self):
-        print('已经上线，用户可通过客户端输入IP进入\r\n')
+        print('已经上线，用户可通过客户端输入IP进入，输入.help可以调出命令列表\r\n')
         input_thread_handler = threading.Thread(target=self.input_thread)
         input_thread_handler.daemon = True
         input_thread_handler.start()
@@ -44,7 +44,7 @@ class ChattingThread(threading.Thread):
 
     def run(self):
         try:
-            print('连接来自于:', self.__caddr)
+            print('-> 连接来自于:', self.__caddr)
             if self.__msg_handler.is_blacklisted(self.__caddr[0]):
                 self.__handle_blacklisted()
                 return
@@ -124,7 +124,7 @@ class ChattingHandler:
             self.__socket_to_user_name.pop(cs)
             self.__user_name_to_broadcast_state.pop(nickname)
             nickname += " 离开了本聊天室"
-        if nickname != "SOMEONE":  # 说明是正常退出，一个防输出卡死机制，来自 boom hack 0x3299f
+        if nickname != "SOMEONE":  # 说明是正常退出，一个防输出卡死机制，来自 boom hack 0x3299f，除非你有更好的替代方案，请勿修改此项
             self.broadcast_system_msg(nickname)
 
     def handle_msg(self, msg, cs):
@@ -146,7 +146,7 @@ class ChattingHandler:
                         'success': True,
                         'msg': '昵称建立成功,输入/checkol可查看所有在线的人,输入/help可以查看帮助(所有首字符为/的消息都不会发送)'
                     }), cs)
-                    self.broadcast_系统消息_msg(js['msg'] + "加入了聊天")
+                    self.broadcast_system_msg(js['msg'] + "加入了聊天")
             else:
                 self.send_to(json.dumps({
                     'type': 'login',
@@ -226,7 +226,7 @@ class ChattingHandler:
             self.__socket_list.append(cs)
         cs.sendall(bytes(msg, 'utf-8'))
 
-    def broadcast_系统消息_msg(self, msg):
+    def broadcast_system_msg(self, msg):
         data = '[ %s ]\r\n[ 系统消息 ] : %s' % (ctime(), msg)
         js = json.dumps({
             'type': '系统消息_msg',
@@ -272,11 +272,6 @@ class ChattingHandler:
                 print(f"IP {ip} 已经被手动移除")
         elif ip == '.banlist':
             print(self.__blacklist)
-        elif ip == '.help':
-            print("BAN: 封禁某个IP\r\n"\
-                  "UNBAN: 解除封禁某个IP\r\n"\
-                  "BANLIST: 查看封禁IP列表\r\n"\
-                  "HELP: 查看操作帮助")
         elif ip == '.an':
             user = input("请输入要发布的内容：")
             self.broadcast_system_msg(user)

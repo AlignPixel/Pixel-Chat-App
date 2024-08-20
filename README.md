@@ -36,7 +36,7 @@
 
 ###### 需要特殊/定制版本
 
-请邮件联系[hello@setbun.com](mailto:hello@setbun.com)探讨您需要的内容，也许会需要您支付额外费用🤔
+请邮件联系[hello.vip@setbun.com](mailto:hello.vip@setbun.com)探讨您需要的内容，也许会需要您支付额外费用🤔
 
 ### 🎈 贡献者列表
 

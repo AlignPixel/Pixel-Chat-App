@@ -36,7 +36,7 @@
 
 ###### 需要特殊/定制版本
 
-请邮件联系[hello.vip@setbun.com](mailto:hello.vip@setbun.com)探讨您需要的内容，也许会需要您支付额外费用🤔
+请邮件联系[hello.vip@setbun.com](mailto:shensu283@luogu.com.cn?subject=%E6%82%A8%E5%A5%BD%EF%BC%8C%E6%88%91%E6%98%AF%5B%E5%85%AC%E5%8F%B8/%E4%B8%AA%E4%BA%BA%E5%90%8D%E7%A7%B0%5D%EF%BC%81%E6%88%91%E9%9C%80%E8%A6%81%E5%AE%9A%E5%88%B6Pixel-Chat%5B%E6%9C%8D%E5%8A%A1%E7%AB%AF/%E5%AE%A2%E6%88%B7%E7%AB%AF%5D%EF%BC%8C%E5%9B%A0%E4%B8%BA%5B%E5%8E%9F%E5%9B%A0%5D%E3%80%82%E5%85%B7%E4%BD%93%E5%8A%9F%E8%83%BD%E5%A6%82%E4%B8%8B%EF%BC%9A%0A1.%20%5B%E4%BD%BF%E7%94%A8%E6%9C%89%E5%BA%8F%E5%88%97%E8%A1%A8%E7%AE%80%E5%8D%95%E5%88%97%E4%B8%BE%E6%82%A8%E9%9C%80%E8%A6%81%E7%9A%84%E5%8A%9F%E8%83%BD%5D%0A%0A%E5%A6%82%E6%9E%9C%E6%82%A8%E6%9C%89%E6%9D%A1%E4%BB%B6%E4%B8%8E%E6%97%B6%E9%97%B4%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E5%AE%9A%E5%88%B6%EF%BC%8C%E8%AF%B7%E6%B7%BB%E5%8A%A0%E6%88%91%E7%9A%84%5B%E5%BE%AE%E4%BF%A1/QQ/Telegram%5D%EF%BC%9A%5B%E5%BE%AE%E4%BF%A1%E5%8F%B7/QQID/TG%E9%93%BE%E6%8E%A5%5D%EF%BC%8C%E8%B0%A2%E8%B0%A2%E6%82%A8%EF%BC%81)探讨您需要的内容，也许会需要您支付额外费用🤔
 
 ### 🎈 贡献者列表
 
